@@ -25,8 +25,7 @@ const PokemonCard: React.FC<{ pokemon: any }> = ({ pokemon }) => {
         <Paper className={clsx(classes.item, classes.card)} elevation={8}>
           <Stack spacing={2}>
             <Typography gutterBottom className={classes.id}>
-              {' '}
-              #{pokemon.id}{' '}
+              #{pokemon.id}
             </Typography>
             <Image
               src={pokemon.sprites.other.dream_world.front_default}
