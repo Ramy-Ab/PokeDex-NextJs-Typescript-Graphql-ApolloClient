@@ -35,8 +35,7 @@ const PokemonCard: React.FC<{ pokemon: any }> = ({ pokemon }) => {
             />
             <Stack spacing={1}>
               <Typography className={classes.id} gutterBottom>
-                {' '}
-                {pokemon.name}{' '}
+                {pokemon.name}
               </Typography>
               <Grid container className={classes.miniImg}>
                 {pokemon?.types.map((el: any, idx: number) => (
