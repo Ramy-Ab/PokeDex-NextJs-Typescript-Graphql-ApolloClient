@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
 import { pokeInstance } from '../helpers/Axios';
+import { pokemon } from '../interfaces/cardInterfaces';
 
 interface returnObject {
   pokemons: object[] | undefined;
   loading: boolean | null;
   error: boolean | null;
-}
-
-interface pokemon {
-  name: string;
 }
 
 export const useFetch = (url: string): returnObject => {

@@ -7,12 +7,18 @@ import { useState } from 'react';
 import { regions } from '../helpers/filters';
 import { Alert } from '@mui/material';
 import { region } from '../interfaces/cardInterfaces';
-import { useThemeMode } from '../contexts/ThemeModeContext';
+import { client } from '../lib/apolloSSR';
+import { GET_POKEMONS, GET_POKEMONS_INFO } from '../schema/graphqlSchema';
+import { getPokemons } from '../api/SSRetcher';
 
-export const Home: React.FC<{}> = ({}) => {
-  const test = useThemeMode();
-  console.log('theme in index: ', test);
-
+export const Home: React.FC<{
+  PokemonsList: [];
+  Pokemon: {};
+  pokemonsAll: [];
+}> = ({ PokemonsList, Pokemon, pokemonsAll }) => {
+  console.log('PokemonsList  :>> ', PokemonsList);
+  console.log('PokemonsINfo  :>> ', Pokemon);
+  console.log('PokemonsAll  :>> ', pokemonsAll);
   const [regionFiler, setRegionFilter] = useState<region>(regions[0]);
 
   const { pokemons, loading, error } = useFetch(
@@ -34,7 +40,7 @@ export const Home: React.FC<{}> = ({}) => {
             setRegionFilter={setRegionFilter}
           />
 
-          <PokemonContainer pokemons={pokemons} />
+          <PokemonContainer pokemons={pokemonsAll} />
         </>
       )}
     </>
@@ -42,3 +48,29 @@ export const Home: React.FC<{}> = ({}) => {
 };
 
 export default Home;
+
+export const getStaticProps = async () => {
+  const { data, error, loading } = await client.query({
+    query: GET_POKEMONS,
+    variables: {
+      limit: 5,
+      offset: 1,
+    },
+  });
+
+  const result = await client.query({
+    query: GET_POKEMONS_INFO,
+    variables: {
+      name: 'caterpie',
+    },
+  });
+  const pokemonsAll = await getPokemons(data);
+
+  return {
+    props: {
+      PokemonsList: data,
+      Pokemon: result.data,
+      pokemonsAll: pokemonsAll,
+    },
+  };
+};
