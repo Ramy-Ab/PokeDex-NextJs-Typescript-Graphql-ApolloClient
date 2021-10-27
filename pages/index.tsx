@@ -7,12 +7,8 @@ import { useState } from 'react';
 import { regions } from '../helpers/filters';
 import { Alert } from '@mui/material';
 import { region } from '../interfaces/cardInterfaces';
-import { useThemeMode } from '../contexts/ThemeModeContext';
 
 export const Home: React.FC<{}> = ({}) => {
-  const test = useThemeMode();
-  console.log('theme in index: ', test);
-
   const [regionFiler, setRegionFilter] = useState<region>(regions[0]);
 
   const { pokemons, loading, error } = useFetch(
